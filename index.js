@@ -17,18 +17,19 @@ server.use(cors());
 
 //test route
 server.get('/forecast/hourly/:lat,:lon', function(req, res){
-     $http.get(baseUrl + apiKey + '/'+req.params.lat+','+req.params.lon)
+     $http.get(baseUrl + apiKey + '/'+req.params.lat+','+req.params.lon) // a promise
           .then(function(response){
             var resOBj = {
               latitude: response.data.latitude,
               longitude: response.data.longitude,
               hourly: response.data.hourly
             };
-            res.json(resOBj);
+            res.status(200).json(resOBj);
           })
           .catch(function(error){
-            console.log(error);
-            res.send('badddd!!!!')
+            res.status(500).json({
+              msg: error
+            })
           });
 });
 
